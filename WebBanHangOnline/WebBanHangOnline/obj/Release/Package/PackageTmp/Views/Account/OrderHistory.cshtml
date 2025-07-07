@@ -1,0 +1,76 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.Order>
+@{
+    ViewBag.Title = "OrderHistory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/main_styles.css">
+<style>
+    .news_section_container {
+        margin-top: 180px;
+    }
+
+    .row-item-new {
+        margin-bottom: 20px;
+    }
+
+    .title-news {
+        font-size: 24px;
+        border-bottom: 1px solid;
+        padding: 15px 0;
+        margin-bottom: 25px;
+    }
+
+    .img-box img {
+        max-width: 100%;
+        max-height: 100%;
+    }
+</style>
+
+<div class="container news_section_container">
+    <h2 class="order-title">Lịch sử mua hàng</h2>
+    <div class="order-grid">
+        @foreach (var order in Model)
+        {
+            <div class="order-card">
+                <div class="card-body">
+                    <p><strong>Mã đơn:</strong> @order.Id</p>
+                    <p><strong>Ngày đặt:</strong> @order.CreatedDate.ToString("dd/MM/yyyy")</p>
+                    <p><strong>Tổng tiền:</strong> @order.TotalAmount.ToString("N0") VND</p>
+                    <button class="order-btn" onclick="loadOrderDetails(@order.Id, this)">Xem chi tiết</button>
+                    <div class="order-details mt-2"></div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function loadOrderDetails(Id, btn) {
+            var container = $(btn).siblings('.order-details');
+
+            if (container.children().length > 0) {
+                container.slideUp(200, function () {
+                    container.empty();
+                });
+                return;
+            }
+
+            // Ẩn các chi tiết đơn hàng khác (ẩn đơn cũ)
+            $('.order-details').not(container).slideUp(200, function () {
+                $(this).empty();
+            });
+
+            $.ajax({
+                url: '/account/OrderDetails/' + Id,
+                type: 'GET',
+                success: function (result) {
+                    container.hide().html(result).slideDown(300);
+                },
+                error: function () {
+                    container.html('<div class="text-danger">Lỗi khi tải chi tiết đơn hàng.</div>').slideDown(300);
+                }
+            });
+        }
+    </script>
+
+}

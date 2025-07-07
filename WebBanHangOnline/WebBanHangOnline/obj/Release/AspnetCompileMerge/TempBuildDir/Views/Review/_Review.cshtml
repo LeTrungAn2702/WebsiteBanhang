@@ -1,0 +1,80 @@
+﻿@model WebBanHangOnline.Models.EF.ReviewProduct
+
+<div class="add_review">
+    @using (Ajax.BeginForm("PostReview", "Review", new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "load_review",
+        OnComplete = "OnSuccessRE",
+        OnFailure = "OnFailureRE"
+    }, new { @id = "myForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div>
+            <h1>Add Review</h1>
+            @Html.TextBoxFor(x => x.FullName, new { @class = "form_input input_name", @placeholder = "Name*", @id = "review_name" })
+            @Html.TextBoxFor(x => x.Email, new { @class = "form_input input_email", @placeholder = "Email*", @id = "review_email" })
+            @Html.HiddenFor(x => x.UserName)
+            @Html.HiddenFor(x => x.ProductId, new { @Value = ViewBag.ProductId })
+            <input type="text" id="txtRate" name="Rate" value="0" style="visibility:hidden" />
+        </div>
+
+        <div>
+            <h1>Your Rating:</h1>
+            <ul class="user_star_rating">
+                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+                <li><i class="fa fa-star-o" aria-hidden="true"></i></li>
+            </ul>
+
+            @Html.TextAreaFor(x => x.Content, new { @class = "input_review", @rows = "4", @placeholder = "Your Review" })
+        </div>
+
+        <div class="text-left text-sm-right">
+            <button id="review_submit" type="submit" class="red_button review_submit_btn trans_300" value="Submit">submit</button>
+        </div>
+    }
+</div>
+<script>
+    function initStarRating() {
+        if ($('.user_star_rating li').length) {
+            var stars = $('.user_star_rating li');
+            var rating = 0;
+
+            stars.each(function () {
+                var star = $(this);
+
+                star.on('click', function () {
+                    var index = star.index();
+                    rating = index + 1;
+                    $('#txtRate').val(rating);
+
+                    // Reset all stars
+                    stars.find('i').removeClass('fa-star').addClass('fa-star-o');
+
+                    // Fill stars up to the selected one
+                    for (var i = 0; i <= index; i++) {
+                        $(stars[i]).find('i').removeClass('fa-star-o').addClass('fa-star');
+                    }
+                });
+            });
+        }
+    }
+
+    function OnSuccessRE() {
+        // Optional: hành động sau khi gửi thành công
+        alert("Gửi đánh giá thành công!");
+        // location.reload(); hoặc location.href = "...";
+    }
+
+    function OnFailureRE() {
+        alert("Gửi đánh giá thất bại!");
+    }
+
+    $(document).ready(function () {
+        initStarRating();
+    });
+</script>

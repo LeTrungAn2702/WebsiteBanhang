@@ -1,0 +1,87 @@
+﻿@model WebBanHangOnline.Models.OrderViewModel
+@{
+    if (ViewBag.User != null)
+    {
+
+    }
+}
+<div id="loadingMessage" style="display:none; color: blue; font-weight: bold;">Đang thanh toán...</div>
+@using (Ajax.BeginForm("CheckOut", "Shoppingcart", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "load_data",
+    OnBegin = "OnBeginCO",  
+    OnComplete = "OnSuccessCO",
+    OnFailure = "OnFailure",
+
+}, new { @Id = "myForm" }))
+{
+    <script>
+        
+        function OnBeginCO() {
+            document.getElementById("loadingMessage").style.display = "block";
+        }
+
+        function OnSuccessCO() {
+            document.getElementById("loadingMessage").style.display = "none";
+            location.href = "/ShoppingCart/CheckOutSuccess";
+        }
+
+        function OnFailure() {
+            document.getElementById("loadingMessage").style.display = "none";
+            alert("Có lỗi xảy ra, vui lòng thử lại.");
+        }
+    </script>
+    @Html.AntiForgeryToken()
+    <h3>Thông tin khách hàng</h3>
+    if (!Request.IsAuthenticated)
+    {
+        <div class="form-group">
+            <label>Họ tên khách hàng</label>
+            <input type="text" name="CustomerName" required class="form-control" autocomplete="off" />
+        </div>
+        <div class="form-group">
+            <label>Số điện thoại</label>
+            <input type="text" name="Phone" class="form-control" autocomplete="off" />
+        </div>
+        <div class="form-group">
+            <label>Địa chỉ</label>
+            <input type="text" name="Address" class="form-control" autocomplete="off" />
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" name="Email" class="form-control" autocomplete="off" />
+        </div>
+    }
+    else
+    {
+        var user = (WebBanHangOnline.Models.ApplicationUser)ViewBag.User;
+        <div class="form-group">
+            <label>Họ tên khách hàng</label>
+            <input type="text" name="CustomerName" value="@user.FullName" class="form-control" autocomplete="off" />
+        </div>
+        <div class="form-group">
+            <label>Số điện thoại</label>
+            <input type="text" name="Phone" value="@user.Phone" class="form-control" autocomplete="off" />
+        </div>
+        <div class="form-group">
+            <label>Địa chỉ</label>
+            <input type="text" name="Address" class="form-control" autocomplete="off" />
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" name="Email" value="@user.Email" class="form-control" autocomplete="off" />
+        </div>
+    }
+
+    <div class="form-group">
+        <label>Hình thức thanh toán</label>
+        <select class="form-control" name="TypePayment">
+            <option value="1" selected>COD</option>
+            <option value="2">Chuyển khoản</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit" onclick="this.disabled = true; this.form.submit();">Đặt hàng</button>
+    </div>
+}
