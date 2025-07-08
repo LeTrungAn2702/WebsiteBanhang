@@ -17,10 +17,11 @@
 - Thêm/xóa/sửa bài viết, tin tức
 - Xem thống kê lượt truy cập của sản phẩm
 ## 🛠️ Công nghệ sử dụng
-
+- [Frontend] sử dụng template có sẵn để tùy biến
 - HTML5, CSS3, JavaScript
 - Bootstrap 
 - [Backend]
   - C# .Net
 - Cơ sở dữ liệu:
   - SQL Sever
+08/07/2025: đã thêm phần xử lí logic vnpay đã test nhưng còn gặp lỗi sai chữ ký
