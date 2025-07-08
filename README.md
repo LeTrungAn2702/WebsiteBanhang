@@ -24,4 +24,4 @@
   - C# .Net
 - Cơ sở dữ liệu:
   - SQL Sever
-08/07/2025: đã thêm phần xử lí logic vnpay đã test nhưng còn gặp lỗi sai chữ ký
+- 08/07/2025: đã thêm phần xử lí logic vnpay đã test nhưng còn gặp lỗi sai chữ ký
