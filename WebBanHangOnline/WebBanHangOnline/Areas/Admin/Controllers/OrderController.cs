@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -32,7 +32,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             return View(items.ToPagedList(pageNumber, pageSize));
         }
 
-      
+
 
         public ActionResult View(int id)
         {
