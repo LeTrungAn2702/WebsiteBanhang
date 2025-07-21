@@ -1,4 +1,4 @@
-﻿@model PagedList.IPagedList<WebBanHangOnline.Models.EF.Order>
+@model PagedList.IPagedList<WebBanHangOnline.Models.EF.Order>
 @using PagedList.Mvc;
 @{
     ViewBag.Title = "Danh sách đơn hàng";
@@ -10,7 +10,7 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="@Url.Action("Index", "Home", new { area = "" })" class="nav-link">Trang chủ</a>
+            <a href="/admin" class="nav-link">Trang chủ</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="/admin/order" class="nav-link">Danh sách đơn hàng</a>
@@ -35,6 +35,7 @@
                         <th>Tên Khách hàng</th>
                         <th>Phone</th>
                         <th>Tiền</th>
+                        <th>Phương thức thanh toán</th>
                         <th>Trạng thái</th>
                         <th>Ngày tạo</th>
                         <th></th>
@@ -53,7 +54,25 @@
                                 <td>@item.CustomerName</td>
                                 <td>@item.Phone</td>
                                 <td>@WebBanHangOnline.Common.Common.FormatNumber(item.TotalAmount, 0)</td>
-                                <td>@(item.TypePayment==1?"Chờ thành toán":"Đã thanh toán")</td>
+                                <td>@(item.TypePayment==1?"COD":"Chuyển khoản")</td>
+                                <td>
+                                    @if (item.Status == 1)
+                                    {
+                                        <span>Chưa thanh toán</span>
+                                    }
+                                    @if (item.Status == 2)
+                                    {
+                                        <span>Đã thanh toán</span>
+                                    }
+                                    @if (item.Status == 3)
+                                    {
+                                        <span>Hoàn thành</span>
+                                    }
+                                    @if (item.Status == 4)
+                                    {
+                                        <span>Hủy</span>
+                                    }
+                                </td>
                                 <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
                                 <td>
                                     <a href="/admin/order/view/@item.Id" class="btn btn-sm btn-success">Xem</a>
