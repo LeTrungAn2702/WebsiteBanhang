@@ -34,3 +34,9 @@
 - 12/07/2025: đã sửa được phần sai chữ ký
 - 15/07/2025: hoàn thành dự án
 - 21/07/2025: thêm 3 mục dự kiến
+## Cách cài đặt khi tải về
+- Tải về và giải nén
+- Chạy soulution (***.sln)
+- Sửa lại phần kết nối db trong file Web.config 
+- Tìm kiếm Nuget Package Console: nhập lệnh Add-Migration -> Update-Database
+- Chạy web.
